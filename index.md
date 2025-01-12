@@ -1,5 +1,3 @@
-Here you can say lots of fun things about your site.
+Hi, I'm a compiler engineer.
+I'd like to post techinical stuffs here.
 
-Maybe say a some things about yourself.
-
-Or maybe what you plan to blog about.
