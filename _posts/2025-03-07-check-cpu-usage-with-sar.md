@@ -10,6 +10,28 @@ visualize the results with [SARChart].
 
 ## Sar
 
+**Installation**:
+
+```bash
+# install the package
+$ sudo apt-get install -y sysstat
+# start the service. on host
+$ systemctl start sysstat.service
+# check the version
+$ sar -V
+sysstat version 12.5.2
+(C) Sebastien Godard (sysstat <at> orange.fr)
+```
+
+**Basic usage**:
+
+```bash
+# Report CPU details for a total 60 times with the interval fo 1 second
+sar -u 1 60 > /tmp/sar-res.txt
+#
+sar -P ALL 1 1200 > /tmp/aaa.txt # 20 min. each cpu per line
+```
+
 ## Java Renaissance workload
 
 ## SARChart
