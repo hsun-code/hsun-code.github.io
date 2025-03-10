@@ -93,10 +93,10 @@ $ cat /tmp/sar-res-akkauct.txt | head -10
 
 ## SARChart
 
-Then we upload the `Sar` records to [SARChart] and we can get the following chart.
+We upload the `Sar` records to [SARChart] and get the following chart to display
+the CPU utilization at the **user level(application)**.
 
-![Sar-CPU](https://github.com/hsun-code/hsun-code.github.io/blob/main/_images/sar-akkauct.png)
-![Sar-CPU-AkkaUct](https://github.com/hsun-code/hsun-code.github.io/blob/main/_images/sar-cpu.svg)
+![Sar-CPU-AkkaUct-3](/images/sar-cpu.svg)
 
 <!-- Links -->
 [How to Check CPU Utilization in Linux with Command Line]: https://phoenixnap.com/kb/check-cpu-usage-load-linux
