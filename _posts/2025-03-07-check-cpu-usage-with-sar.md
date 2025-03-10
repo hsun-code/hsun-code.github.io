@@ -59,7 +59,7 @@ and 10 measurement iterations. The benchmark takes ~1m20s to finish.
 
 **Evaluation**:
 
-Open one terminal and run `AkkaUct.
+Open one terminal and run `AkkaUct`.
 
 ```powershell
 $ java -jar renaissance-jmh-0.16.0.jar -f 3 -i 10 -wi 5 AkkaUct
