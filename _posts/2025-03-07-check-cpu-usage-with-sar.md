@@ -12,7 +12,7 @@ visualize the results with [SARChart].
 
 **Installation**:
 
-```bash
+```powershell
 # install the package
 $ sudo apt-get install -y sysstat
 # start the service. on host
@@ -25,16 +25,78 @@ sysstat version 12.5.2
 
 **Basic usage**:
 
-```bash
-# Report CPU details for a total 60 times with the interval fo 1 second
-sar -u 1 60 > /tmp/sar-res.txt
-#
-sar -P ALL 1 1200 > /tmp/aaa.txt # 20 min. each cpu per line
+```powershell
+# Report CPU details for a total 10 times with the interval fo 1 second
+# Save the report records into a file
+$ sar -u 1 10 > /tmp/sar-res.txt
+
+# Check the output
+$ cat /tmp/sar-res.txt
+
+12:43:17 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+12:43:18 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:19 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:20 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:21 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:22 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:23 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:24 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:25 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:26 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+12:43:27 AM     all      0.00      0.00      0.00      0.00      0.00    100.00
+Average:        all      0.00      0.00      0.00      0.00      0.00    100.00
+
+# Each report record contains one line for each CPU
+sar -P ALL 1 10 > /tmp/sar-res.txt
 ```
 
 ## Java Renaissance workload
 
+**Environment**: We evaluate [Renaissance] workload, the JMH version 0.16, with
+OpenJDK 21 version. We select `AkkaUct` benchmark as an example and run it with
+arguments `-f 3 -i 10 -wi 5`, that is, using 3 forks with 5 warmup iterations
+and 10 measurement iterations. The benchmark takes ~1m20s to finish.
+
+**Evaluation**:
+
+Open one terminal and run `AkkaUct.
+
+```powershell
+$ java -jar renaissance-jmh-0.16.0.jar -f 3 -i 10 -wi 5 AkkaUct
+
+...
+...
+
+Benchmark       Mode  Cnt     Score    Error  Units
+JmhAkkaUct.run    ss   30  1701.498 ± 48.076  ms/op
+```
+
+At the same time, we run `sar` in one separate terminal and
+the CPU usage information wil be recorded in file `/tmp/sar-res-akkauct.txt`.
+
+```powershell
+# One trick: we may 'ctrl-c' to termine sar if we saw the benchmark has finished.
+$ sar -u 1 90 > /tmp/sar-res-akkauct.txt
+
+# Here shows the first 10 lines of the sar result
+$ cat /tmp/sar-res-akkauct.txt | head -10
+
+01:13:37 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle
+01:13:38 AM     all     84.57      0.00      0.67      0.00      0.00     14.76
+01:13:39 AM     all     88.59      0.00      0.86      0.00      0.00     10.55
+01:13:40 AM     all     97.75      0.00      0.39      0.00      0.00      1.86
+01:13:41 AM     all     82.95      0.00      0.41      0.00      0.00     16.63
+01:13:42 AM     all     66.51      0.00      0.39      0.00      0.00     33.10
+01:13:43 AM     all     98.15      0.00      0.44      0.00      0.00      1.40
+01:13:44 AM     all     73.23      0.00      0.71      0.00      0.00     26.06
+```
+
 ## SARChart
+
+Then we upload the `Sar` records to [SARChart] and we can get the following chart.
+
+![Sar-CPU](https://github.com/hsun-code/hsun-code.github.io/blob/main/_images/sar-akkauct.png)
+![Sar-CPU-AkkaUct](https://github.com/hsun-code/hsun-code.github.io/blob/main/_images/sar-cpu.svg)
 
 <!-- Links -->
 [How to Check CPU Utilization in Linux with Command Line]: https://phoenixnap.com/kb/check-cpu-usage-load-linux
