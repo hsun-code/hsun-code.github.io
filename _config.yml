@@ -6,3 +6,5 @@ email: "hsun-code@outlook.com"
 github_username: "hsun-code"
 
 theme: "minima"
+
+exclude: images,files
