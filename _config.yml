@@ -5,7 +5,9 @@ author: "Hao SUN"
 email: "hsun-code@outlook.com"
 github_username: "hsun-code"
 
-# theme: "minima"
-theme: jekyll-theme-modernist
+theme: "minima"
 
-# exclude: images,files
+exclude: images,files
+
+kramdown:
+  syntax_highlighter: coderay
