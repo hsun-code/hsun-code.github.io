@@ -8,6 +8,3 @@ github_username: "hsun-code"
 theme: "minima"
 
 exclude: images,files
-
-kramdown:
-  syntax_highlighter: coderay
