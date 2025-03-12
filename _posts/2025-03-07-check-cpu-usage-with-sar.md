@@ -15,7 +15,7 @@ visualize the results with [SARChart].
 
 **Installation**
 
-```shell
+```bash
 # install the package
 $ sudo apt-get install -y sysstat
 # start the service. on host
@@ -28,7 +28,7 @@ sysstat version 12.5.2
 
 **Basic usage**
 
-```shell
+```bash
 # Report CPU details for a total 10 times with the interval fo 1 second
 # Save the report records into a file
 $ sar -u 1 10 > /tmp/sar-res.txt
@@ -66,7 +66,7 @@ and 10 measurement iterations. The benchmark takes ~1m20s to finish.
 
 Open one terminal and run `AkkaUct`.
 
-```shell
+```bash
 $ java -jar renaissance-jmh-0.16.0.jar -f 3 -i 10 -wi 5 AkkaUct
 
 ...
@@ -79,7 +79,7 @@ JmhAkkaUct.run    ss   30  1701.498 ± 48.076  ms/op
 At the same time, we run `sar` in one separate terminal and
 the CPU usage information wil be recorded in file `/tmp/sar-res-akkauct.txt`.
 
-```shell
+```bash
 # One trick: we may 'ctrl-c' to termine sar if we saw the benchmark has finished.
 $ sar -u 1 90 > /tmp/sar-res-akkauct.txt
 
