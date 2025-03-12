@@ -7,4 +7,4 @@ github_username: "hsun-code"
 
 theme: "minima"
 
-exclude: images,files
+exclude: README.md
