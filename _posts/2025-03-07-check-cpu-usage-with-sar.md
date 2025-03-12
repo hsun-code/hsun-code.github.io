@@ -105,7 +105,7 @@ the CPU utilization at the **user level(application)**.
 
 **Full result**
 
-Full result can be found in [Renaissance-Sar result](/files/202503-renaissace-sar-result/README.log)
+Full result can be found in [Renaissance-Sar result](/files/202503-renaissace-sar-result)
 
 <!-- Links -->
 [How to Check CPU Utilization in Linux with Command Line]: https://phoenixnap.com/kb/check-cpu-usage-load-linux
