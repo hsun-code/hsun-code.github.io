@@ -8,4 +8,4 @@ github_username: "hsun-code"
 # theme: "minima"
 theme: "modernist"
 
-exclude: images,files
+# exclude: images,files
