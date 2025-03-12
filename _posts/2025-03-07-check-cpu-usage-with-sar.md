@@ -1,6 +1,6 @@
 ---
 title: "Check CPU Usage with Sar and Visualize the results with SARChart"
-tags: performance
+tags: Performance
 ---
 
 **Motivation**: When analyzing one workload, we may want to figure out the CPU
@@ -56,7 +56,7 @@ sysstat version 12.5.2
 
 **Basic usage**:
 
-```bash
+```shell
 # Report CPU details for a total 10 times with the interval fo 1 second
 # Save the report records into a file
 $ sar -u 1 10 > /tmp/sar-res.txt
@@ -131,7 +131,7 @@ the CPU utilization at the **user level(application)**.
 
 ### Full result
 
-<!-- Full result can be found in [Renaissance-Sar result](https://github.com/hsun-code/hsun-code.github.io/tree/main/data/202503-renaissace-sar-result) -->
+Full result can be found in [Renaissance-Sar result](/files/202503-renaissace-sar-result)
 
 <!-- Links -->
 [How to Check CPU Utilization in Linux with Command Line]: https://phoenixnap.com/kb/check-cpu-usage-load-linux
