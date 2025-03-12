@@ -7,4 +7,4 @@ github_username: "hsun-code"
 
 theme: "minima"
 
-exclude: files
+exclude: files/**/README.md
