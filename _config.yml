@@ -6,6 +6,6 @@ email: "hsun-code@outlook.com"
 github_username: "hsun-code"
 
 # theme: "minima"
-theme: "modernist"
+theme: jekyll-theme-modernist
 
 # exclude: images,files
