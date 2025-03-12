@@ -13,35 +13,7 @@ visualize the results with [SARChart].
 
 ## Sar
 
-**Installation**:
-
-it's a cpp
-
-```cpp
-#include <stdio.h>
-int main(int a, int b) {
-  return a + b;
-}
-```
-
-it's a java
-
-```java
-class Test {
-    public static void main(String args[]) {
-        System.out.println("Hello Java");  
-    }
-}
-```
-
-it's python
-
-```python
-x = 1
-if x == 1:
-  # indented four spaces
-  print("x is 1.")
-```
+**Installation**
 
 ```bash
 # install the package
@@ -54,7 +26,7 @@ sysstat version 12.5.2
 (C) Sebastien Godard (sysstat <at> orange.fr)
 ```
 
-**Basic usage**:
+**Basic usage**
 
 ```shell
 # Report CPU details for a total 10 times with the interval fo 1 second
@@ -83,12 +55,14 @@ $ sar -P ALL 1 10 > /tmp/sar-res.txt
 
 ## Java Renaissance workload
 
-**Environment**: We evaluate [Renaissance] workload, the JMH version 0.16, with
+**Environment**
+
+We evaluate [Renaissance] workload, the JMH version 0.16, with
 OpenJDK 21 version. We select `AkkaUct` benchmark as an example and run it with
 arguments `-f 3 -i 10 -wi 5`, that is, using 3 forks with 5 warmup iterations
 and 10 measurement iterations. The benchmark takes ~1m20s to finish.
 
-**Evaluation**:
+**Evaluation**
 
 Open one terminal and run `AkkaUct`.
 
@@ -129,7 +103,7 @@ the CPU utilization at the **user level(application)**.
 
 ![Sar-CPU-AkkaUct-3](/images/sar-cpu.svg)
 
-### Full result
+**Full result**
 
 Full result can be found in [Renaissance-Sar result](/files/202503-renaissace-sar-result/README.log)
 
