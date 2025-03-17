@@ -10,4 +10,4 @@ title: Bookmarks
 
 ## Performance Analysis
 
-- [Graviton Performance Runbook] (https://github.com/aws/aws-graviton-getting-started/blob/main/perfrunbook/README.md)
+- [Graviton Performance Runbook](https://github.com/aws/aws-graviton-getting-started/blob/main/perfrunbook/README.md)
