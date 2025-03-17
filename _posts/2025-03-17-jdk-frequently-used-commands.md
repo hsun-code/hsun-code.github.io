@@ -5,7 +5,7 @@ tags: jdk
 
 We're using Ubuntu-24.04 and [OpenJDK-24] version.
 
-## Dependencies
+## 1. Dependencies
 
 ### Build Dependencies
 
@@ -102,7 +102,7 @@ sh make/devkit/createJMHBundle.sh
 --with-jmh=/path/to/your/jdk/build/jmh/jars
 ```
 
-## Configure and Build
+## 2. Configure and Build
 
 By default, the following commands can build one OopenJDK and test whether the OpenJDK works well.
 
@@ -155,7 +155,7 @@ export CXX=/usr/lib/llvm-14/bin/clang++
 --with-extra-cflags=--verbose --with-extra-cxxflags=--verbose --with-extra-ldflags=--verbose
 ```
 
-## JTreg test
+## 3. JTreg test
 
 Everything about JTreg can be found in [Regression Test Harness for the JDK: jtreg].
 As stated in section `Running tests using jtreg` in [Regression Test Harness for the JDK: jtreg],
@@ -215,7 +215,7 @@ java -XX:+PrintFlagsFinal -XX:UseAVX=3 -version | grep UseAVX
 
 It's highly recommended to read [New Test Framework with IR Verification] as well.
 
-## JMH test
+## 4. JMH test
 
 **Prerequisites**: `--with-jmh=` must be specified during the JDK build.
 
@@ -249,7 +249,7 @@ numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 I
 numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned -prof perfasm 2>&1 | tee /tmp/cmp-unsigned.log
 ```
 
-## IdealGraphVisualizer: igv
+## 5. IdealGraphVisualizer: igv
 
 Reference: [Improving the Ideal Graph Visualizer for better comprehension of Java's main JIT compiler]
 
@@ -295,7 +295,7 @@ java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -Xcomp -XX:CompileCommand
   -XX:PrintIdealGraphFile="file.xml" -XX:+PrintIdeal Bar.java
 ```
 
-## Auto-generated files
+## 6. Auto-generated files
 
 ### AArch64 assembler test
 
@@ -324,11 +324,11 @@ cd src/hotspot/cpu/aarch64
 m4 aarch64_vector_ad.m4 > aarch64_vector.ad # will override the original aarch64_vector.ad
 ```
 
-## perf
+## 7. perf
 
 TODO: libjvmti.so, async-profiler
 
-## Misc
+## 8. Misc
 
 ### usefule links
 
