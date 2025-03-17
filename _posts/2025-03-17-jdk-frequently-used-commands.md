@@ -5,8 +5,6 @@ tags: jdk
 
 We're using Ubuntu-24.04 and [OpenJDK-24] version.
 
----
-
 # Dependencies
 
 ## Build Dependencies
