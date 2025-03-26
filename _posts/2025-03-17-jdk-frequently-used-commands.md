@@ -18,9 +18,9 @@ $ sudo apt-get build-dep openjdk-21
 
 #### Boot JDK
 
-A Boot JDK is required to bootstrap the build, and only a set of specific
-versions are valid to build the target version. Check `boot-jdk.m4` file for more
-for more details. Roughly boot JDK is looked in the order:
+A Boot JDK is required to bootstrap the build and only a set of specific
+versions are valid to build the target version. Check `boot-jdk.m4` file for
+more details. Roughly boot JDK is looked in the order:
 
 ```text
 1) --with-boot-jdk=/path/to/boot/jdk
@@ -30,9 +30,9 @@ for more details. Roughly boot JDK is looked in the order:
 
 Note that we can download the prebuilt releases from [OpenJDK GA Download].
 
-#### google test
+#### Google test
 
-gtest source is needed to run JTreg tests. And there is minimal version
+gtest source is needed to run JTreg tests. There is minimal version
 requirement. See `LIB_TESTS_SETUP_GTEST` in JDK repo for more details.
 
 ```bash
@@ -53,7 +53,7 @@ git clone -b v1.15.2 https://github.com/google/googletest.git /tmp/gtest
 sudo curl -Lo /usr/lib/hsdis-aarch64.so https://chriswhocodes.com/hsdis/hsdis-aarch64.so
 ```
 
-#### jtreg
+#### JTreg
 
 JTreg binary is needed to run JDK conformance test and there is also minimal
 version requirement. Check `LIB_TESTS_SETUP_JTREG` and `JTREG_MINIMUM_VERSION` in
@@ -77,10 +77,10 @@ git clone https://github.com/openjdk/jtreg.git jtreg-tmp
 cd jtreg-tmp
 git checkout jtreg-7.5.1+1
 bash make/build.sh --jdk /usr/lib/jvm/default-java
-# build/images/jreg is our target
+# build/images/jtreg is our target
 ls build/images/jtreg
 
-# move it to ~/work/libs
+# move it /usr/local/lib
 cp -r build/images/jtreg /usr/local/lib
 
 # the following configure option can be passed later
@@ -89,9 +89,11 @@ cp -r build/images/jtreg /usr/local/lib
 export JT_HOME=/usr/local/lib/jtreg
 ```
 
-#### [JMH] jar
+#### JMH jar
 
-A set of jmh microbenchmarks are included inside OpenJDK code base.
+A set of [JMH] microbenchmarks are included inside OpenJDK code base. See the
+Java files under `test/micro/org/openjdk/bench` directory. The following
+commands build these Java files into jar file.
 
 ```bash
 # step-1: build the jar package
@@ -104,7 +106,8 @@ sh make/devkit/createJMHBundle.sh
 
 ## Configure and Build
 
-By default, the following commands can build one OopenJDK and test whether the OpenJDK works well.
+By default, the following commands can build one OopenJDK and test whether the
+OpenJDK works well.
 
 ```bash
 # configure
@@ -113,14 +116,18 @@ cd jdk-build
 bash /path/to/your/jdk/configure
 
 # if succeeds, the configuration in details would be printed out.
+# Note that configure.log.old saves the full log.
 
 # build
 make images # by default, $nproc threads will start for building
 make test-image
+# Note that build.log.old saves the full log of "make images" and file
+# build.log saves the full log of "make test-image"
 
 # check whether OpenJDK works or not
 ./jdk/bin/java --version
 ```
+
 More options can be specify to configure:
 
 ```bash
@@ -182,7 +189,7 @@ make test TEST=test/hotspot/jtreg/compiler/c2/TestAbs.java
 # here is another example:
 # we usually use the following command to run vector related tests.
 make test TEST="test/hotspot/jtreg/compiler/vectorapi/ test/jdk/jdk/incubator/vector/ test/hotspot/jtreg/compiler/vectorization/" \
-     JTREG="VM_OPTIONS=-XX:MaxVectorSize=16 -Djdk.incubator.vector.test.loop-iterations=300"
+  JTREG="VM_OPTIONS=-XX:MaxVectorSize=16 -Djdk.incubator.vector.test.loop-iterations=300"
 
 # 2
 # jtreg options can be found in the reference.
@@ -222,7 +229,7 @@ It's highly recommended to read [New Test Framework with IR Verification] as wel
 
 **Prerequisites**: `--with-jmh=` must be specified during the JDK build.
 
-Similarly, there are two ways to evaluate jmh case, using `make test` and running `java -jar` binary directly.
+Similarly, there are two ways to evaluate jmh case, using `make test` and running `java -jar` directly.
 
 ```bash
 # 1
@@ -259,10 +266,9 @@ Reference: [Improving the Ideal Graph Visualizer for better comprehension of Jav
 #### Build and install
 
 Please check file `src/utils/IdealGraphVisualizer/README.md` in JDk repo for more details
+Here gives the comands to build `igv` on macOS.
 
 ```bash
-# build igv on macOS
-
 # install brew and openjdk-21
 brew install openjdk@21
 
@@ -298,36 +304,40 @@ java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -Xcomp -XX:CompileCommand
   -XX:PrintIdealGraphFile="file.xml" -XX:+PrintIdeal Bar.java
 ```
 
-## Auto-generated files
+## Auto-generated files on AArch64 side
 
 #### AArch64 assembler test
 
 In some cases, we may add new AArch64 instruction and then the corresponding assembler test is added accordingly.
 
-Take [8292587: AArch64: Support SVE fabd instruction] as an example. We updated
+Take [8348868: AArch64: Add backend support for SelectFromTwoVector] as an example. We updated
 `aarch64-asmtest.py` and we should use the following command to generate the new `asmtest.out.h` file.
 
 ```bash
 cd /path/to/your/jdk
 cd test/hotspot/gtest/aarch64
 python2 aarch64-asmtest.py | expand > asmtest.out.h
+# Note that python2 is needed here.
+# But Ubuntu 24.04 has entirely dropped Python 2 packages.
+# We should install it manually.
 ```
 
 #### AArch64 ad file
 
-In some cases, we may add new matching rules for instruction selection in `AD` file.
- As the `ad` file is auto generated by the corresponding `m4` file, the following command is needed.
+In some cases, we may add new matching rules for instruction selection in `ad` file.
+As the `ad` file is auto generated by the corresponding `m4` file, the following command is needed.
 
-Take [8292587: AArch64: Support SVE fabd instruction] as an example.
+Take [8348868: AArch64: Add backend support for SelectFromTwoVector] as an example.
 We added one new rule, i.e. `vfabd_sve` in the `m4` file.
 
 ```bash
 cd /path/to/your/jdk
 cd src/hotspot/cpu/aarch64
-m4 aarch64_vector_ad.m4 > aarch64_vector.ad # will override the original aarch64_vector.ad
+m4 aarch64_vector_ad.m4 > aarch64_vector.ad
+# Note that the original aarch64_vector.ad will be overwritten.
 ```
 
-## perf 
+## Perf
 
 TODO: libjvmti.so, async-profiler
 
@@ -342,4 +352,4 @@ TODO: libjvmti.so, async-profiler
 [JMH]: https://github.com/openjdk/jmh-jdk-microbenchmarks
 [New Test Framework with IR Verification]: https://cr.openjdk.org/~chagedorn/TestFramework/TestFramework.pdf
 [Improving the Ideal Graph Visualizer for better comprehension of Java's main JIT compiler]: https://robcasloz.github.io/blog/2021/04/22/improving-the-ideal-graph-visualizer.html
-[8292587: AArch64: Support SVE fabd instruction]: https://bugs.openjdk.org/browse/JDK-8292587
+[8348868: AArch64: Add backend support for SelectFromTwoVector]: https://bugs.openjdk.org/browse/JDK-8348868
