@@ -337,10 +337,6 @@ m4 aarch64_vector_ad.m4 > aarch64_vector.ad
 # Note that the original aarch64_vector.ad will be overwritten.
 ```
 
-## Perf
-
-TODO: libjvmti.so, async-profiler
-
 <!-- Links -->
 [OpenJDK-24]: https://github.com/openjdk/jdk24u
 [OpenJDK build]: https://openjdk.org/groups/build/doc/building.html
