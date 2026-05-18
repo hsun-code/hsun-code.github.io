@@ -211,7 +211,7 @@ make test TEST="test/jdk/jdk/incubator/vector/Short64VectorTests.java" JTREG="MA
 # specify the error log file
 -XX:ErrorFile=/tmp/aa.log
 # e.g.,
-make test JTREG="VM_OPTIONS=-XX:UseBranchProtection=standard -XX:ErrorFile=/tmp/aa.log" TEST="test/jdk/java/lang/Thread/virtual/Locking.java"
+make test JTREG="VM_OPTIONS=-XX:UseBranchProtection=standard -XX:ErrorFile=/tmp/hs_err_pid%p.log -XX:ReplayDataFile=/tmp/replay_pid%p.log" TEST="test/jdk/java/lang/Thread/virtual/Locking.java"
 
 # disable one intrinsic
 -XX:+UnlockDiagnosticVMOptions -XX:DisableIntrinsic=_compareUnsigned_i
