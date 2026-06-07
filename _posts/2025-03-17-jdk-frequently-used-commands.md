@@ -322,6 +322,17 @@ python2 aarch64-asmtest.py | expand > asmtest.out.h
 # We should install it manually.
 ```
 
+**Note**: this test is included in `hotspot:tier` scope.
+
+```bash
+hotspot:tier1
+  >> hotspot:tier1_common
+    >> gtest/GTestWrapper.java
+      >> test_assembler_aarch64.cpp
+        >> "TEST_VM(AssemblerAArch64, validate)"
+          >> asmtest.out.h
+```
+
 #### AArch64 ad file
 
 In some cases, we may add new matching rules for instruction selection in `ad` file.
