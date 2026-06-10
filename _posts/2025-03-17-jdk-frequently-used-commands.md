@@ -219,6 +219,9 @@ make test JTREG="VM_OPTIONS=-XX:UseBranchProtection=standard -XX:ErrorFile=/tmp/
 # print out some log
 make test JTREG="VM_OPTIONS=-Xlog:continuations=trace:file=/tmp/bb.log -XX:ErrorFile=/tmp/aa.log" TEST="jdk/internal/vm/Continuation/Fuzz.java"
 
+# verbose printing to stderr
+make test TEST=xxx JTREG="RETAIN=all;VERBOSE=all"
+
 # check one flag is set or not
 java -XX:+PrintFlagsFinal -XX:UseAVX=3 -version | grep UseAVX
 ```
