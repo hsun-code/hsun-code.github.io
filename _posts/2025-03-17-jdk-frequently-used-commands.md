@@ -268,10 +268,10 @@ java -jar XX.jar AA
 # specify -f -i options
 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
   Integers.compareUnsigned
-# we can further specify some VM options
-./jdk/bin/java -XX:+UnlockDiagnosticVMOptions \
-  -XX:DisableIntrinsic=_compareUnsigned_i \
-  -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned
+# we can further specify some VM options via jvmArgsAppend
+./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
+  --jvmArgsAppend "-XX:+UnlockDiagnosticVMOptions \
+  -XX:DisableIntrinsic=_compareUnsigned_i" Integers.compareUnsigned
 # we may use numactl to specify the CPU core, e.g.
 numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
   Integers.compareUnsigned
