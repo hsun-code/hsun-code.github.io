@@ -50,7 +50,8 @@ git clone -b v1.15.2 https://github.com/google/googletest.git /tmp/gtest
 
 ```bash
 # Download d prebuilt package and put it under /usr/lib
-sudo curl -Lo /usr/lib/hsdis-aarch64.so https://chriswhocodes.com/hsdis/hsdis-aarch64.so
+sudo curl -Lo /usr/lib/hsdis-aarch64.so \
+  https://chriswhocodes.com/hsdis/hsdis-aarch64.so
 ```
 
 #### JTreg
@@ -106,7 +107,7 @@ sh make/devkit/createJMHBundle.sh
 
 ## Configure and Build
 
-By default, the following commands can build one OopenJDK and test whether the
+By default, the following commands can build one OpenJDK and test whether the
 OpenJDK works well.
 
 ```bash
@@ -159,7 +160,8 @@ export CXX=/usr/lib/llvm-14/bin/clang++
 --with-extra-cflags="-Wno-nonnull -Wc++17-extensions"
 
 # get the full compilation log
---with-extra-cflags=--verbose --with-extra-cxxflags=--verbose --with-extra-ldflags=--verbose
+--with-extra-cflags=--verbose --with-extra-cxxflags=--verbose \
+  --with-extra-ldflags=--verbose
 ```
 
 ## JTreg test
@@ -188,17 +190,22 @@ make test TEST=test/hotspot/jtreg/compiler/c2/TestAbs.java
 
 # here is another example:
 # we usually use the following command to run vector related tests.
-make test TEST="test/hotspot/jtreg/compiler/vectorapi/ test/jdk/jdk/incubator/vector/ test/hotspot/jtreg/compiler/vectorization/" \
-  JTREG="VM_OPTIONS=-XX:MaxVectorSize=16 -Djdk.incubator.vector.test.loop-iterations=300"
+make test TEST="test/hotspot/jtreg/compiler/vectorapi/ \
+  test/jdk/jdk/incubator/vector/ \
+  test/hotspot/jtreg/compiler/vectorization/" \
+  JTREG="VM_OPTIONS=-XX:MaxVectorSize=16 \
+  -Djdk.incubator.vector.test.loop-iterations=300
 
 # 2
 # jtreg options can be found in the reference.
 # can specify the jtwork
 # -v:summary can dump all the test summary
 # test case: -dir: PATH-to-src/test AA, AA can be one test case or one test dir.
-/path/to/your/jtreg -agentvm -a -ea -esa -v:error,fail -ignore:quiet -timeoutFactor:32 -J-Xmx768m \
-  -vmoption:-Xcomp -vmoption:-Xmx768m -vmoptions:-Djdk.incubator.vector.test.loop-iterations=300 \
-  -testjdk:/path/to/your/jdk/build/images/ -w:/tmp/jtwork -dir:/path/to/your/jdk/test \
+/path/to/your/jtreg -agentvm -a -ea -esa -v:error,fail -ignore:quiet \
+  -timeoutFactor:32 -J-Xmx768m -vmoption:-Xcomp -vmoption:-Xmx768m \
+  -vmoptions:-Djdk.incubator.vector.test.loop-iterations=300 \
+  -testjdk:/path/to/your/jdk/build/images/ -w:/tmp/jtwork \
+  -dir:/path/to/your/jdk/test \
   jdk/jdk/incubator/vector/VectorReshapeTests.java
 ```
 
@@ -206,18 +213,23 @@ The following JTreg options or VM options might be helpful.
 
 ```bash
 # set the max output
-make test TEST="test/jdk/jdk/incubator/vector/Short64VectorTests.java" JTREG="MAX_OUTPUT=2500000"
+make test TEST="test/jdk/jdk/incubator/vector/Short64VectorTests.java" \
+  JTREG="MAX_OUTPUT=2500000"
 
 # specify the error log file
 -XX:ErrorFile=/tmp/aa.log
 # e.g.,
-make test JTREG="VM_OPTIONS=-XX:UseBranchProtection=standard -XX:ErrorFile=/tmp/hs_err_pid%p.log -XX:ReplayDataFile=/tmp/replay_pid%p.log" TEST="test/jdk/java/lang/Thread/virtual/Locking.java"
+make test JTREG="VM_OPTIONS=-XX:UseBranchProtection=standard \
+  -XX:ErrorFile=/tmp/hs_err_pid%p.log \
+  -XX:ReplayDataFile=/tmp/replay_pid%p.log" \
+  TEST="test/jdk/java/lang/Thread/virtual/Locking.java"
 
 # disable one intrinsic
 -XX:+UnlockDiagnosticVMOptions -XX:DisableIntrinsic=_compareUnsigned_i
 
 # print out some log
-make test JTREG="VM_OPTIONS=-Xlog:continuations=trace:file=/tmp/bb.log -XX:ErrorFile=/tmp/aa.log" TEST="jdk/internal/vm/Continuation/Fuzz.java"
+make test JTREG="VM_OPTIONS=-Xlog:continuations=trace:file=/tmp/bb.log \
+  -XX:ErrorFile=/tmp/aa.log" TEST="jdk/internal/vm/Continuation/Fuzz.java"
 
 # verbose printing to stderr
 make test TEST=xxx JTREG="RETAIN=all;VERBOSE=all"
@@ -241,8 +253,11 @@ make test TEST="micro:AA micro:BB" MICRO='VM_OPTIONS=XX YY'
 
 # e.g.,
 make test TEST="micro:vm.compiler.VectorShiftRight"
-make test TEST="micro:FloatingScalarVectorAbsDiff.testVectorAbsDiffFloat micro:Longs.compareUnsignedDirect"
-make test TEST=micro:MessageDigests.getAndDigest MICRO='VM_OPTIONS=-XX:+UnlockDiagnosticVMOptions -XX:+UseSHA3Intrinsics -XX:+UseSHA512Intrinsics;RESULTS_FORMAT=text'
+make test TEST="micro:FloatingScalarVectorAbsDiff.testVectorAbsDiffFloat \
+  micro:Longs.compareUnsignedDirect"
+make test TEST=micro:MessageDigests.getAndDigest \
+  MICRO="VM_OPTIONS=-XX:+UnlockDiagnosticVMOptions -XX:+UseSHA3Intrinsics \
+  -XX:+UseSHA512Intrinsics;RESULTS_FORMAT=text"
 
 # 2
 # run java -jar
@@ -251,15 +266,20 @@ java -jar XX.jar AA
 # here show several use examples:
 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar Integers.compareUnsigned
 # specify -f -i options
-./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned
+./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
+  Integers.compareUnsigned
 # we can further specify some VM options
-./jdk/bin/java -XX:+UnlockDiagnosticVMOptions -XX:DisableIntrinsic=_compareUnsigned_i -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned
+./jdk/bin/java -XX:+UnlockDiagnosticVMOptions \
+  -XX:DisableIntrinsic=_compareUnsigned_i \
+  -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned
 # we may use numactl to specify the CPU core, e.g.
-numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned
+numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
+  Integers.compareUnsigned
 
 # perf (important)
 # add `-prof perfasm`, e.g.,
-numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 Integers.compareUnsigned -prof perfasm 2>&1 | tee /tmp/cmp-unsigned.log
+numactl -C 140 ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
+  Integers.compareUnsigned -prof perfasm 2>&1 | tee /tmp/cmp-unsigned.log
 ```
 
 ## IdealGraphVisualizer: igv
@@ -302,8 +322,11 @@ bash ./igv.sh
 -XX:CompilerDirectivesFile=compiler_directive.txt
 
 # e.g.,
-java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -Xcomp -XX:CompileCommand=dontinline,*Bar.sum -XX:CompileCommand=compileonly,*Bar.sum \
-  -XX:PrintIdealGraphLevel=4 -XX:PrintIdealGraphAddress="10.123.123.45" -XX:PrintIdealGraphPort=4444 \
+java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -Xcomp \
+  -XX:CompileCommand=dontinline,*Bar.sum \
+  -XX:CompileCommand=compileonly,*Bar.sum \
+  -XX:PrintIdealGraphLevel=4 -XX:PrintIdealGraphAddress="10.123.123.45" \
+  -XX:PrintIdealGraphPort=4444 \
   -XX:PrintIdealGraphFile="file.xml" -XX:+PrintIdeal Bar.java
 ```
 
