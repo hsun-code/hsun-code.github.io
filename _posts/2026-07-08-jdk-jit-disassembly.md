@@ -225,10 +225,59 @@ Compiled method (c2) 1195  849       4       compiler.vectorapi.VectorAbsDiffTes
 
 **Note**: Release build is used.
 
-#### Check Disassembly
+Take `test/micro/org/openjdk/bench/jdk/incubator/vector/VectorMultiplyOptBenchmark.java`
+as an example. We can use the following command to run one specify benchmark
+with one specific parameter.
 
-#### Profiling
+```bash
+$ make test TEST="micro:VectorMultiplyOptBenchmark.test_bm_pattern1" \
+  MICRO="OPTIONS=-p SIZE=1024"
+```
 
+Same as JTreg, we can obtain the disassembly code by passing some
+`PrintAssembly` related options.
+
+```bash
+$ log_file=/tmp/abc.log
+# All methods are printed out
+$ make test TEST="micro:VectorMultiplyOptBenchmark.test_bm_pattern1" \
+  MICRO="OPTIONS=-p SIZE=1024;VM_OPTIONS=-XX:+UnlockDiagnosticVMOptions \
+  -XX:+PrintAssembly" >$log_file
+# Note that test_bm_pattern1_thrpt_jmhStub is the wrapper to run test_bm_pattern1
+$ grep "Compiled\ method" $log_file | grep "test_bm_pattern1"
+Compiled method (c1) 5352 1035       3       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 (92 bytes)
+Compiled method (c2) 5618 1042 %     4       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 @ 2 (92 bytes)
+Compiled method (c2) 5721 1064       4       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 (92 bytes)
+Compiled method (c1) 5738 1065 %     3       org.openjdk.bench.jdk.incubator.vector.jmh_generated.VectorMultiplyOptBenchmark_test_bm_pattern1_jmhTest::test_bm_pattern1_thrpt_jmhStub @ 13 (52 bytes)
+Compiled method (c1) 5749 1066       3       org.openjdk.bench.jdk.incubator.vector.jmh_generated.VectorMultiplyOptBenchmark_test_bm_pattern1_jmhTest::test_bm_pattern1_thrpt_jmhStub (52 bytes)
+Compiled method (c2) 5800 1067 %     4       org.openjdk.bench.jdk.incubator.vector.jmh_generated.VectorMultiplyOptBenchmark_test_bm_pattern1_jmhTest::test_bm_pattern1_thrpt_jmhStub @ 13 (52 bytes)
+Compiled method (c2) 6698 1073 %     4       org.openjdk.bench.jdk.incubator.vector.jmh_generated.VectorMultiplyOptBenchmark_test_bm_pattern1_jmhTest::test_bm_pattern1_thrpt_jmhStub @ 13 (52 bytes)
+Compiled method (c2) 7721 1076       4       org.openjdk.bench.jdk.incubator.vector.jmh_generated.VectorMultiplyOptBenchmark_test_bm_pattern1_jmhTest::test_bm_pattern1_thrpt_jmhStub (52 bytes)
+
+# Only test_bm_pattern1 is printed out
+make test TEST="micro:VectorMultiplyOptBenchmark.test_bm_pattern1" \
+  MICRO="OPTIONS=-p SIZE=1024;VM_OPTIONS=-XX:+UnlockDiagnosticVMOptions \
+  -XX:CompileCommand=print,*VectorMultiplyOptBenchmark::test_bm_pattern1" \
+  >$log_file
+$ grep "Compiled\ method" $log_file
+Compiled method (c1) 998 1056       3       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 (92 bytes)
+Compiled method (c2) 1087 1057 %     4       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 @ 2 (92 bytes)
+Compiled method (c2) 1139 1058       4       org.openjdk.bench.jdk.incubator.vector.VectorMultiplyOptBenchmark::test_bm_pattern1 (92 bytes)
+```
+
+Besides `make test TEST=XX`, we can also run Java binary with the `jar` package
+to execute the benchmark. Note: we should pass the VM options via JMH option
+`--jvmArgsAppend`.
+
+```bash
+# Run this benchmark
+$ ./jdk/bin/java -jar  ./images/test/micro/benchmarks.jar -f1 -i10 \
+  VectorMultiplyOptBenchmark.test_bm_pattern1 -p SIZE=1024
+# Print out the disassembly
+$ ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
+  VectorMultiplyOptBenchmark.test_bm_pattern1 -p SIZE=1024 \
+  -jvmArgsAppend "-XX:+UnlockDiagnosticVMOptions -XX:CompileCommand=print,*VectorMultiplyOptBenchmark::test_bm_pattern1" >$log_file
+```
 
 <!-- Links -->
 [OpenJDK-26]: https://github.com/openjdk/jdk26u
