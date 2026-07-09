@@ -276,7 +276,9 @@ $ ./jdk/bin/java -jar  ./images/test/micro/benchmarks.jar -f1 -i10 \
 # Print out the disassembly
 $ ./jdk/bin/java -jar ./images/test/micro/benchmarks.jar -f1 -i10 \
   VectorMultiplyOptBenchmark.test_bm_pattern1 -p SIZE=1024 \
-  -jvmArgsAppend "-XX:+UnlockDiagnosticVMOptions -XX:CompileCommand=print,*VectorMultiplyOptBenchmark::test_bm_pattern1" >$log_file
+  -jvmArgsAppend "-XX:+UnlockDiagnosticVMOptions \
+  -XX:CompileCommand=print,*VectorMultiplyOptBenchmark::test_bm_pattern1" \
+  >$log_file
 ```
 
 <!-- Links -->
