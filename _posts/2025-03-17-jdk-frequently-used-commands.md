@@ -194,7 +194,7 @@ make test TEST="test/hotspot/jtreg/compiler/vectorapi/ \
   test/jdk/jdk/incubator/vector/ \
   test/hotspot/jtreg/compiler/vectorization/" \
   JTREG="VM_OPTIONS=-XX:MaxVectorSize=16 \
-  -Djdk.incubator.vector.test.loop-iterations=300
+  -Djdk.incubator.vector.test.loop-iterations=300"
 
 # 2
 # jtreg options can be found in the reference.
